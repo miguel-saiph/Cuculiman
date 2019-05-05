@@ -25,7 +25,7 @@ public class TigerController : MonoBehaviour {
 
 		pj = GameObject.Find ("JP").GetComponent<Transform>();
 		anim = GetComponent<Animator> ();
-		groundCheck = transform.FindChild("GroundCheck");
+		groundCheck = transform.Find("GroundCheck");
 
 		speed *= -1;
 
@@ -70,7 +70,7 @@ public class TigerController : MonoBehaviour {
 		}
 
 		//If there is ground in front of him, he flips
-		if (Physics2D.Raycast(transform.FindChild("Center").position, Vector2.left * transform.localScale.x, 0.5f, whatIsGround).transform != null) {
+		if (Physics2D.Raycast(transform.Find("Center").position, Vector2.left * transform.localScale.x, 0.5f, whatIsGround).transform != null) {
 			Flip();
 		}
 

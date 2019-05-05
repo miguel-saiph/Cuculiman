@@ -41,7 +41,7 @@ public class JpControl : MonoBehaviour {
 		anim = GetComponent<Animator> ();
 		rb = GetComponent<Rigidbody2D> ();
 		//idle = sr.sprite;
-		groundCheck = transform.FindChild("GroundCheck");
+		groundCheck = transform.Find("GroundCheck");
 	}
 	
 	// Update is called once per frame

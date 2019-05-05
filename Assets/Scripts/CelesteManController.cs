@@ -27,7 +27,7 @@ public class CelesteManController : MonoBehaviour {
 
 		pj = GameObject.Find ("JP").transform;
 		anim = GetComponent<Animator> ();
-		groundCheck = transform.FindChild("GroundCheck");
+		groundCheck = transform.Find("GroundCheck");
 	}
 	
 	// Update is called once per frame

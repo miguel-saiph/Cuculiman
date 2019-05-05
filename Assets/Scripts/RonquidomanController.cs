@@ -31,7 +31,7 @@ public class RonquidomanController : MonoBehaviour {
 		pj = GameObject.Find ("JP").transform;
 		anim = GetComponent<Animator> ();
 		rb = GetComponent<Rigidbody2D> ();
-		groundCheck = transform.FindChild("GroundCheck");
+		groundCheck = transform.Find("GroundCheck");
 	}
 
 	// Update is called once per frame

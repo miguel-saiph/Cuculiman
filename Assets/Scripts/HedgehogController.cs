@@ -67,7 +67,7 @@ public class HedgehogController : MonoBehaviour {
 			anim.SetFloat ("speed", Mathf.Abs (movement.x));
 
 			//If there is and invisible wall in front of him, he flips
-			if (Physics2D.Raycast(transform.FindChild("Center").position, Vector2.left * transform.localScale.x, 0.25f, whatIsWall).transform != null) {
+			if (Physics2D.Raycast(transform.Find("Center").position, Vector2.left * transform.localScale.x, 0.25f, whatIsWall).transform != null) {
 				Flip();
 			}
 

@@ -34,7 +34,7 @@ public class ColemonkeyController : MonoBehaviour {
 
 		pj = GameObject.Find ("JP").GetComponent<Transform>();
 		anim = GetComponent<Animator> ();
-		groundCheck = transform.FindChild("GroundCheck");
+		groundCheck = transform.Find("GroundCheck");
 
 		if (encounterNumber == Encounter.Second) {
 			Flip ();
