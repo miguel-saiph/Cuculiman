@@ -49,6 +49,7 @@ public class SelectionManager : MonoBehaviour {
 
 		selectionScreen.GetComponent<AudioSource> ().Stop ();
 		GetComponent<AudioSource> ().Play ();
+        StartCoroutine(ToStage());
 
 		Invoke ("ActivePresentation1", 1.5f);
 		stage1.GetComponent<Animator> ().enabled = false;
@@ -68,10 +69,19 @@ public class SelectionManager : MonoBehaviour {
 		presentationCanvas.gameObject.SetActive (true);
 		Camera.main.GetComponent<Camera>().backgroundColor = Color.black;
 		presentationCanvas.gameObject.transform.GetChild (1).gameObject.SetActive(true);
-		Invoke ("ActiveLevel1", 3f);
+		//Invoke ("ActiveLevel1", 3f);
 	}
 
-	private void ActiveLevel1() {
+    IEnumerator ToStage()
+    {
+        AudioSource audio = presentationCanvas.GetComponent<AudioSource>();
+        audio.Play();
+        Debug.Log(audio.clip.length);
+        yield return new WaitForSeconds(audio.clip.length);
+        SceneManager.LoadScene("CelesteManStage");
+    }
+
+    private void ActiveLevel1() {
 		SceneManager.LoadScene ("CelesteManStage");
 	}
 

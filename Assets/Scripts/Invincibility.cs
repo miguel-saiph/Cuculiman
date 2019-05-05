@@ -12,6 +12,7 @@ public class Invincibility : MonoBehaviour {
 	private string originalTag;
 
 	private float realTime;
+    private bool flag = true;
 
 	// Use this for initialization
 	void Awake () {
@@ -31,22 +32,23 @@ public class Invincibility : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		//Si no se ha complido el tiempo, activa y desactiva el sprite
+		//Si no se ha cumplido el tiempo, activa y desactiva la transparencia
 		if (Time.time <= realTime) {
-			if (spriteRenderer.enabled) {
-				spriteRenderer.enabled = false;
+            
+			if (spriteRenderer.color == Color.white) {
+				spriteRenderer.color = new Color(1,1,1,0.5f);
 			} else {
-				spriteRenderer.enabled = true;
+                spriteRenderer.color = Color.white;
 			}
-		} else {
-			//Para asegurarme que siempre terminará con el sprite activo
-			if (!spriteRenderer.enabled) {
-				spriteRenderer.enabled = true;
-			}
-			gameObject.tag = originalTag;
-			gameObject.GetComponent<Invincibility> ().enabled = false;
+            
+            
+        } else {
+            //Para asegurarme de que siempre terminará con los parámetros originales
+            spriteRenderer.color = Color.white;
+            gameObject.tag = originalTag;
+            gameObject.GetComponent<Invincibility>().enabled = false;
 
-		}
+        }
 		
 	}
 }
