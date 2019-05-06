@@ -12,9 +12,10 @@ public class Invincibility : MonoBehaviour {
 	private string originalTag;
 
 	private float realTime;
-    private bool flag = true;
 
-	// Use this for initialization
+    [SerializeField] private float transparencyTime = 0.01f;
+    private bool flag = true;
+    
 	void Awake () {
 
 		spriteRenderer = this.GetComponent<SpriteRenderer> ();
@@ -29,17 +30,24 @@ public class Invincibility : MonoBehaviour {
 
 	}
 	
-	// Update is called once per frame
 	void Update () {
 
 		//Si no se ha cumplido el tiempo, activa y desactiva la transparencia
 		if (Time.time <= realTime) {
             
+            /*
 			if (spriteRenderer.color == Color.white) {
 				spriteRenderer.color = new Color(1,1,1,0.5f);
 			} else {
                 spriteRenderer.color = Color.white;
 			}
+            */
+
+            if(flag)
+            {
+                flag = false;
+                //StartCoroutine(Transparency());
+            }
             
             
         } else {
@@ -51,4 +59,20 @@ public class Invincibility : MonoBehaviour {
         }
 		
 	}
+
+    IEnumerator Transparency()
+    {
+        if (spriteRenderer.color == Color.white)
+        {
+            spriteRenderer.color = new Color(1, 1, 1, 0.5f);
+        }
+        else
+        {
+            spriteRenderer.color = Color.white;
+        }
+
+        yield return new WaitForSeconds(transparencyTime);
+
+        flag = true;
+    }
 }

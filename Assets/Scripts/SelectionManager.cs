@@ -16,6 +16,8 @@ public class SelectionManager : MonoBehaviour {
 	private bool stage1Completed;
 	private bool stage2Completed;
 
+    private int _stage;
+
 	// Use this for initialization
 	void Start () {
 
@@ -45,31 +47,28 @@ public class SelectionManager : MonoBehaviour {
 	void Update () {
 	}
 
-	public void ToLevel1() {
+	public void GoToStage(int stage) {
+
+        _stage = stage;
 
 		selectionScreen.GetComponent<AudioSource> ().Stop ();
 		GetComponent<AudioSource> ().Play ();
         StartCoroutine(ToStage());
 
-		Invoke ("ActivePresentation1", 1.5f);
-		stage1.GetComponent<Animator> ().enabled = false;
-		//SceneManager.LoadScene ("CelesteManStage");
-	}
+		Invoke ("ActivatePresentation", 1.5f);
 
-	public void ToLevel2() {
-		selectionScreen.GetComponent<AudioSource> ().Stop ();
-		GetComponent<AudioSource> ().Play ();
-		//SceneManager.LoadScene ("RonquidoMan Stage");
-		Invoke ("ActivePresentation2", 1.5f);
-		stage2.GetComponent<Animator> ().enabled = false;
-	}
+        if (_stage == 1)
+		    stage1.GetComponent<Animator> ().enabled = false;
+        if (_stage == 2)
+            stage2.GetComponent<Animator>().enabled = false;
+    }
 
-	private void ActivePresentation1() {
+	private void ActivatePresentation() {
 		selectionScreen.gameObject.SetActive (false);
 		presentationCanvas.gameObject.SetActive (true);
 		Camera.main.GetComponent<Camera>().backgroundColor = Color.black;
-		presentationCanvas.gameObject.transform.GetChild (1).gameObject.SetActive(true);
-		//Invoke ("ActiveLevel1", 3f);
+		presentationCanvas.gameObject.transform.GetChild (_stage).gameObject.SetActive(true);
+
 	}
 
     IEnumerator ToStage()
@@ -78,23 +77,11 @@ public class SelectionManager : MonoBehaviour {
         audio.Play();
         Debug.Log(audio.clip.length);
         yield return new WaitForSeconds(audio.clip.length);
-        SceneManager.LoadScene("CelesteManStage");
+        
+        if (_stage == 1)
+            SceneManager.LoadScene("CelesteManStage");
+        if (_stage == 2)
+            SceneManager.LoadScene("RonquidoMan Stage");
     }
-
-    private void ActiveLevel1() {
-		SceneManager.LoadScene ("CelesteManStage");
-	}
-
-	private void ActivePresentation2() {
-		selectionScreen.gameObject.SetActive (false);
-		presentationCanvas.gameObject.SetActive (true);
-		Camera.main.GetComponent<Camera>().backgroundColor = Color.black;
-		presentationCanvas.gameObject.transform.GetChild (2).gameObject.SetActive(true);
-		Invoke ("ActiveLevel2", 3f);
-	}
-
-	private void ActiveLevel2() {
-		SceneManager.LoadScene ("RonquidoMan Stage");
-	}
 		
 }
