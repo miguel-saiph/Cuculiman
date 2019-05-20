@@ -19,16 +19,24 @@ public class DropFire : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+
+
 		if (Time.time >= savedTime) {
 
 			gameObject.GetComponent<Animator> ().SetTrigger ("dropFire");
 			savedTime = Time.time + timeToDrop;
 		}
+        
 		
 	}
 
 	public void SpawnLilFire() {
 
-		Instantiate (lilFirePrefab, new Vector2 (transform.position.x - 0.4f, transform.position.y), transform.rotation);
-	}
+        bool random = Random.Range(0, 2) == 1 ? true : false;
+
+        GameObject newMinion = Instantiate(lilFirePrefab, new Vector2(transform.position.x - 0.4f, transform.position.y), transform.rotation);
+
+        if (random) newMinion.GetComponent<Rigidbody2D>().AddForce(new Vector2(-50, 200));
+
+    }
 }

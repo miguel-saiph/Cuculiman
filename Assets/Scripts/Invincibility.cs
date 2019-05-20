@@ -46,7 +46,7 @@ public class Invincibility : MonoBehaviour {
             if(flag)
             {
                 flag = false;
-                //StartCoroutine(Transparency());
+                StartCoroutine(Transparency());
             }
             
             

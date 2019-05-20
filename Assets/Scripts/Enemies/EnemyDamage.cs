@@ -45,7 +45,7 @@ public class EnemyDamage : MonoBehaviour {
 		hp = defaultHp;
 		sr.enabled = true;
 		gameObject.GetComponent<Collider2D>().enabled = true;
-		anim.enabled = true;
+		if (anim) anim.enabled = true;
 	}
 
 	void OnTriggerEnter2D (Collider2D other) {
@@ -72,7 +72,7 @@ public class EnemyDamage : MonoBehaviour {
 					//Disable things to enable again after a player's death
 					sr.enabled = false;
 					gameObject.GetComponent<Collider2D> ().enabled = false;
-					anim.enabled = false;
+					if (anim) anim.enabled = false;
 
 				}
 
