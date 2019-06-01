@@ -30,14 +30,14 @@ public class LadderMovement : MonoBehaviour {
 
         if (hitInfoUp.collider != null)
         {
-            if (Input.GetKeyDown(KeyCode.UpArrow))
+            if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetAxisRaw("Vertical") > 0)
             {
                 isClimbing = true;
             }
             
         } else if(hitInfoDown.collider != null)
         {
-            if (Input.GetKeyDown(KeyCode.DownArrow))
+            if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetAxisRaw("Vertical") < 0)
             {
                 isClimbing = true;
             }
@@ -52,7 +52,6 @@ public class LadderMovement : MonoBehaviour {
         }
 
         RaycastHit2D hitInfo2 = Physics2D.Raycast(groundCheck.position, Vector2.down, 0.5f, LayerMask.GetMask("Environment"));
-        
 
         if (hitInfo2.collider != null)
         {
@@ -60,7 +59,7 @@ public class LadderMovement : MonoBehaviour {
             if (hitInfo2.collider.gameObject.name == "End")
             {
                 //isClimbing = false;
-                if (Input.GetKeyDown(KeyCode.DownArrow))
+                if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetAxisRaw("Vertical") < 0)
                 {
                     Physics2D.IgnoreCollision(GetComponent<Collider2D>(), hitInfo2.collider, true);
                     isClimbing = true;
@@ -70,9 +69,7 @@ public class LadderMovement : MonoBehaviour {
             }
             
         }
-
-
-
+        
         if (isClimbing == true && (hitInfoUp.collider != null || hitInfoDown.collider != null))
         {
             inputVertical = Input.GetAxisRaw("Vertical");
@@ -93,15 +90,19 @@ public class LadderMovement : MonoBehaviour {
             anim.speed = 1;
         }
 
+        // Abort climbing with jump button
+        if (isClimbing && Input.GetButtonDown("Jump"))
+        {
+            isClimbing = false;
+        }
+
         anim.SetBool("isClimbing", isClimbing);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log(endLadder);
         if (collision.gameObject.name == "RestoreCollision" && endLadder != null)
         {
-            Debug.Log("Lo hizo!");
             Physics2D.IgnoreCollision(GetComponent<Collider2D>(), endLadder, false);
         }
     }
