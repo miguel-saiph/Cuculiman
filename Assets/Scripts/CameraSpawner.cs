@@ -5,7 +5,7 @@ using UnityEngine;
 public class CameraSpawner : MonoBehaviour {
 
 	public GameObject enemyPrefab;
-	public bool destroyOnSpawn; //If it spawn just one time
+	public bool destroyOnSpawn; //If it spawns just one time
 
 	public bool hasSpawned = false;
 

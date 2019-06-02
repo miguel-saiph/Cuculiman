@@ -13,16 +13,18 @@ public class LadderMovement : MonoBehaviour {
     [SerializeField] private LayerMask whatIsLadder;
     private bool isClimbing;
     private Collider2D endLadder;
+    private GameObject player;
     
 	void Start () {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         groundCheck = transform.Find("GroundCheck");
+        player = GameObject.Find("JP");
     }
 	
 	void FixedUpdate () {
 
-        
+        //var isOnTheFloor = Physics2D.OverlapBox(groundCheck.position, new Vector2(0.2f, 0.08f), 0, LayerMask.GetMask("Environment"));
 
         RaycastHit2D hitInfoUp = Physics2D.Raycast(groundCheck.position, Vector2.up, distance, whatIsLadder);
         RaycastHit2D hitInfoDown = Physics2D.Raycast(groundCheck.position, Vector2.down, distance, whatIsLadder);
@@ -67,7 +69,7 @@ public class LadderMovement : MonoBehaviour {
                 }
                 
             }
-            
+
         }
         
         if (isClimbing == true && (hitInfoUp.collider != null || hitInfoDown.collider != null))
@@ -96,6 +98,9 @@ public class LadderMovement : MonoBehaviour {
             isClimbing = false;
         }
 
+        //if (isClimbing) Camera.main.GetComponent<Camera2D>().isYLocked = false;
+        //else Camera.main.GetComponent<Camera2D>().isYLocked = true;
+
         anim.SetBool("isClimbing", isClimbing);
     }
 
@@ -105,5 +110,13 @@ public class LadderMovement : MonoBehaviour {
         {
             Physics2D.IgnoreCollision(GetComponent<Collider2D>(), endLadder, false);
         }
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        // To allow camera movement y while in the ladder
+        if (player.GetComponent<Rigidbody2D>().velocity.y == 2 || player.GetComponent<Rigidbody2D>().velocity.y == -2)
+            Camera.main.GetComponent<Camera2D>().isYLocked = false;
+        
     }
 }

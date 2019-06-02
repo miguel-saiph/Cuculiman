@@ -35,8 +35,16 @@ public class JpControl : MonoBehaviour {
 	public int hp = 30;
 	public GameObject hurtedThing;
 
-	// Use this for initialization
-	void Start () {
+    public bool IsOnTheFloor
+    {
+        get
+        {
+            return isOnTheFloor;
+        }
+    }
+
+    // Use this for initialization
+    void Start () {
 
 		anim = GetComponent<Animator> ();
 		rb = GetComponent<Rigidbody2D> ();
@@ -46,12 +54,12 @@ public class JpControl : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
+        
+        //Para ver dónde está el personaje en relación a la cámara
+        //Debug.Log(Camera.main.WorldToViewportPoint(gameObject.transform.position));
 
-		//Para ver dónde está el personaje en relación a la cámara
-		//Debug.Log(Camera.main.WorldToViewportPoint(gameObject.transform.position));
-
-		//Movimiento
-		float x = Input.GetAxis ("Horizontal");
+        //Movimiento
+        float x = Input.GetAxis ("Horizontal");
 
 
 		transform.Translate (Vector2.right * x * speed * Time.deltaTime);
@@ -88,26 +96,28 @@ public class JpControl : MonoBehaviour {
 		//Salto
 
 		isOnTheFloor = Physics2D.OverlapBox(groundCheck.position, groundCheckSize, 0,  whatIsGround);
-		//isOnTheFloor = Physics2D.Linecast(transform.position, groundCheck.position, whatIsGround);
-		/*
+        if (isOnTheFloor)
+            Camera.main.GetComponent<Camera2D>().isYLocked = true;
+        //isOnTheFloor = Physics2D.Linecast(transform.position, groundCheck.position, whatIsGround);
+        /*
 		isOnTheFloor = Physics2D.Linecast(transform.FindChild("LinearCheck1").position, groundCheck.position, whatIsGround);
 		if (!isOnTheFloor) {
 			isOnTheFloor = Physics2D.Linecast(transform.FindChild("LinearCheck2").position, groundCheck.position, whatIsGround);
 		}*/
-		/*for (int i = 0; i < colliders.Length; i++)
+        /*for (int i = 0; i < colliders.Length; i++)
 		{
 			if (colliders[i].gameObject != gameObject)
 				isOnTheFloor = true;
 		}*/
 
-		//Fuerza a velocity.y a siempre ser cero cuando esté en tierra (como debería ser...)
-		/*if (isOnTheFloor) {
+        //Fuerza a velocity.y a siempre ser cero cuando esté en tierra (como debería ser...)
+        /*if (isOnTheFloor) {
 			var v = rb.velocity;
 			v.y = 0;
 			rb.velocity = v;
 		}*/
 
-		/*
+        /*
 		if (Input.GetButtonDown ("Jump")) {
 			//if (isOnTheFloor) {
 				if (rb.velocity.y == 0) {
@@ -115,13 +125,12 @@ public class JpControl : MonoBehaviour {
 				}
 			//}
 		}*/
-			
 
-	}
+    }
 
 	void Update() {
 
-		if (Input.GetButtonDown ("Jump")) {
+        if (Input.GetButtonDown ("Jump")) {
 			if (isOnTheFloor) {
 				rb.AddForce (new Vector2 (0f, jumpForce));
 			}
@@ -145,7 +154,7 @@ public class JpControl : MonoBehaviour {
 			}
 
 		}
-	}
+    }
 
 	void OnTriggerEnter2D (Collider2D other) {
 
