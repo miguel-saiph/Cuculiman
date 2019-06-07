@@ -115,7 +115,8 @@ public class LadderMovement : MonoBehaviour {
     private void OnTriggerStay2D(Collider2D collision)
     {
         // To allow camera movement y while in the ladder
-        if (!GameObject.Find("StageManager").GetComponent<FiremanStage>().staticCamera)
+        //if (!GameObject.Find("StageManager").GetComponent<FiremanStage>().staticCamera)
+        if (!GameManager.gm.staticCamera)
         {
             if (player.GetComponent<Rigidbody2D>().velocity.y == 2 || player.GetComponent<Rigidbody2D>().velocity.y == -2)
                 Camera.main.GetComponent<Camera2D>().isYLocked = false;

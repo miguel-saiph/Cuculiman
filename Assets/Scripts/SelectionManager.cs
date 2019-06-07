@@ -15,6 +15,7 @@ public class SelectionManager : MonoBehaviour {
 
 	private bool stage1Completed;
 	private bool stage2Completed;
+    private bool stage3Completed;
 
     private int _stage;
 
@@ -27,8 +28,9 @@ public class SelectionManager : MonoBehaviour {
 		//GlobalOptions.lives = 3;
 		stage1Completed = GlobalOptions.stage1;
 		stage2Completed = GlobalOptions.stage2;
+        stage3Completed = GlobalOptions.stage3;
 
-		if (stage1Completed) {
+        if (stage1Completed) {
 			GameObject.Find ("Celeste Image").GetComponent<Image> ().sprite = completedImage;
 			GameObject.Find ("Celeste Image").GetComponent<Image> ().SetNativeSize();
 		}
@@ -38,7 +40,13 @@ public class SelectionManager : MonoBehaviour {
 			GameObject.Find ("Ronquido Image").GetComponent<Image> ().SetNativeSize();
 		}
 
-		if (stage1Completed && stage2Completed) {
+        if (stage3Completed)
+        {
+            //GameObject.Find("Ronquido Image").GetComponent<Image>().sprite = completedImage;
+            //GameObject.Find("Ronquido Image").GetComponent<Image>().SetNativeSize();
+        }
+
+        if (stage1Completed && stage2Completed && stage3Completed) {
 			SceneManager.LoadScene ("Ending");
 		}
 	}
@@ -82,6 +90,8 @@ public class SelectionManager : MonoBehaviour {
             SceneManager.LoadScene("CelesteManStage");
         if (_stage == 2)
             SceneManager.LoadScene("RonquidoMan Stage");
+        if (_stage == 3)
+            SceneManager.LoadScene("FireMan Stage");
     }
 		
 }

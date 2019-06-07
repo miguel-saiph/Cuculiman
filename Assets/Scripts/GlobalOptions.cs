@@ -8,6 +8,7 @@ public static class GlobalOptions{
 	public static string message = "Probando probando...";
 	public static bool stage1 = false;
 	public static bool stage2 = false;
+    public static bool stage3 = false;
 	public enum Language {
 		English, Español
 	}

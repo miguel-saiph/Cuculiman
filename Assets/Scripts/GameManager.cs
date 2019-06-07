@@ -27,6 +27,14 @@ public class GameManager : MonoBehaviour {
 	public bool checkpoint3 = false;
 
 	public GameObject[] zones;
+    public enum Levels
+    {
+        Celesteman,
+        Ronquidoman,
+        Giacaman
+    }
+    public Levels currentLevel;
+    [HideInInspector] public bool staticCamera = false;
 
 	public AudioClip victoryMusic;
 
@@ -37,15 +45,16 @@ public class GameManager : MonoBehaviour {
 
 	void Start () {
 
-		//Importante para poder usar las funciones desde afuera
-		if (gm == null) {
+        //Importante para poder usar las funciones desde afuera
+        if (gm == null) {
 			gm = this.gameObject.GetComponent<GameManager> ();
 		}
 
 		player = GameObject.FindGameObjectWithTag ("Player");
-		//For some reason I had to add a number to y axis
-		defaultPosition = new Vector2 (player.transform.position.x, player.transform.position.y + 1);
-		defaultCameraPos = new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, Camera.main.transform.position.z);
+        //For some reason I had to add a number to y axis
+        //defaultPosition = new Vector2 (player.transform.position.x, player.transform.position.y + 1);
+        defaultPosition = new Vector2(player.transform.position.x, player.transform.position.y);
+        defaultCameraPos = new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, Camera.main.transform.position.z);
 
 		//Healthbar
 		bars = GameObject.FindGameObjectsWithTag ("Bar"); //Las cuenta de abajo hacia arriba
@@ -59,19 +68,14 @@ public class GameManager : MonoBehaviour {
 		lifeCounter.text = "X " + GlobalOptions.lives.ToString();
 
 	}
-	
-	// Update is called once per frame
-	void Update () {
 
-	}
-
-	public void SubstractHealth(int healthAmount) {
+    public void SubstractHealth(int healthAmount) {
 		
 		if (healthAmount > playerHp) {
 			healthAmount = playerHp;
 		}
 			
-		//Por cada unidad de daño saca una barra de energía
+        // For every damage point it disable one energy bar
 		for (int i = 0; i < healthAmount; i++) {
 			//bars [i].SetActive (false);
 			GameObject.Find(barritas[playerHp]).GetComponent<Image>().enabled = false;
@@ -186,11 +190,12 @@ public class GameManager : MonoBehaviour {
 
 		Camera.main.GetComponent<AudioSource> ().Play ();
 
+        //Destroy player's death explosion
 		if (GameObject.Find("JPExplosion(Clone)")) {
 			Destroy (GameObject.Find ("JPExplosion(Clone)"));
-			
 		}
-		//Show black screen
+
+		//Shows black screen
 		GameObject.Find ("BlackScreen").GetComponent<Image> ().enabled = true;
 		GameObject.Find ("BlackScreen").GetComponent<BlackScreenDisabler> ().enabled = true;
 
@@ -202,10 +207,12 @@ public class GameManager : MonoBehaviour {
 		//Search if any checkpoint is enabled to take the respawn and camera position
 		if (Checkpoint.checkpointsList != null) {
 			foreach (GameObject temp in Checkpoint.checkpointsList) {
-				if (temp.GetComponent<Checkpoint> ().activated) {
-					
-					respawnPosition = temp.GetComponent<Checkpoint> ().respawnPosition;
-					cameraPos = temp.GetComponent<Checkpoint> ().cameraPosition;
+                
+                if (temp.GetComponent<Checkpoint> ().activated) {
+                    
+                    
+                    respawnPosition = temp.GetComponent<Checkpoint> ().respawnPosition;
+                    cameraPos = temp.GetComponent<Checkpoint> ().cameraPosition;
 
 					if (temp.name.Equals ("Checkpoint (1)")) {
 						//Disable every zone
@@ -214,8 +221,8 @@ public class GameManager : MonoBehaviour {
 						}
 
 						//Enable first zone
-						zones[0].SetActive (true);
-
+                        if(zones.Length>1)
+						    zones[0].SetActive (true);
 
 						//Restart all the transitions
 						if (CameraTransition.transitionList != null) {
@@ -224,8 +231,7 @@ public class GameManager : MonoBehaviour {
 							}
 						}
 							
-
-						if (ronquidomanStage) {
+						if (currentLevel == Levels.Ronquidoman) {
 							GameObject.Find ("WorldLimit (1)").GetComponent<EdgeCollider2D> ().enabled = true;
 							Camera.main.GetComponent<Camera2D> ().xLimitLeft = -0.06f;
 							Camera.main.GetComponent<Camera2D> ().xLimitRight = 59.318f;
@@ -237,9 +243,10 @@ public class GameManager : MonoBehaviour {
 							zones [i].SetActive (false);
 						}
 
-						if (!ronquidomanStage) {
+						if (currentLevel == Levels.Celesteman) {
 							zones [2].SetActive (true);
-						} else {
+						} else if (currentLevel == Levels.Ronquidoman)
+                        {
 							zones [4].SetActive (true);
 						}
 
@@ -248,13 +255,13 @@ public class GameManager : MonoBehaviour {
 								item.GetComponent<CameraTransition> ().RestartTransition ();
 							}
 						}
-						if (!ronquidomanStage) {
+						if (currentLevel == Levels.Celesteman) {
 							//Set new camera limits
 							Camera.main.GetComponent<Camera2D> ().xLimitRight = 
 							GameObject.Find ("Transition (1)").GetComponent<CameraTransition> ().newXLimitR;
 							Camera.main.GetComponent<Camera2D> ().xLimitLeft = 
 							GameObject.Find ("Transition (1)").GetComponent<CameraTransition> ().newXLimitL;
-						} else {
+						} else if(currentLevel == Levels.Ronquidoman) {
 							GameObject.Find ("WorldLimit (2)").GetComponent<EdgeCollider2D> ().enabled = true;
 							Camera.main.GetComponent<Camera2D> ().xLimitRight = 
 								GameObject.Find ("Transit (3)").GetComponent<CameraTransition> ().newXLimitR;
@@ -271,10 +278,11 @@ public class GameManager : MonoBehaviour {
 
 						//ChangeLife (-1);
 						if (GlobalOptions.lives > 0) {
-							if (ronquidomanStage) {
+							if (currentLevel == Levels.Ronquidoman) {
 								//Debug.Log (GlobalOptions.lives);
 								SceneManager.LoadScene ("RonquidoMan Battle");	
-							} else {
+							} else if(currentLevel == Levels.Celesteman)
+                            {
 								SceneManager.LoadScene ("CelesteMan Battle");	
 							}
 						} else {
@@ -286,17 +294,12 @@ public class GameManager : MonoBehaviour {
 					//break;
 				} else {
 
-					/*
-					Debug.Log ("Holi");
-					if (ronquidomanStage) {
-						SceneManager.LoadScene ("RonquidoMan Stage");
-					} else {
-						SceneManager.LoadScene ("CelesteManStage");
-					}*/
-
-
-					zones[0].SetActive (false);
-					zones[0].SetActive (true);
+                    if(zones.Length > 1)
+                    {
+                        zones[0].SetActive(false);
+                        zones[0].SetActive(true);
+                    }
+					
 
 				}
 			}
@@ -325,7 +328,8 @@ public class GameManager : MonoBehaviour {
 		player.GetComponent<Animator> ().enabled = true;
 		player.GetComponent<JpControl> ().enabled = true;
 		player.GetComponent<BoxCollider2D> ().enabled = true;
-		player.tag = "Player";
+        player.GetComponent<SpriteRenderer>().color = Color.white;
+        player.tag = "Player";
 
 		Camera.main.transform.position = cameraPos;
 		if (!Camera.main.GetComponent<Camera2D> ().enabled) {
