@@ -45,9 +45,15 @@ public class Fatguy : MonoBehaviour {
 
     private void Attack()
     {
-        littleFire = Instantiate(firePrefab, transform.position, Quaternion.identity);
-        littleFire.GetComponent<Rigidbody2D>().AddForce(Vector2.up * attackForce);
-        isVulnerable = true;
+        float distance = Mathf.Abs(transform.position.x - GameObject.Find("JP").transform.position.x);
+
+        if (distance <= 2)
+        {
+            littleFire = Instantiate(firePrefab, transform.position, Quaternion.identity);
+            littleFire.GetComponent<Rigidbody2D>().AddForce(Vector2.up * attackForce);
+            isVulnerable = true;
+        }
+        
     }
 
     private void Invulnerability()

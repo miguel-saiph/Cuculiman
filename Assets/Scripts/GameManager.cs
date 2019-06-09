@@ -151,7 +151,8 @@ public class GameManager : MonoBehaviour {
 		player.GetComponent<JpControl> ().TurnRight ();
 		Camera.main.GetComponent<Camera2D> ().enabled = false;
 		player.GetComponent<SpriteRenderer> ().enabled = false;
-		player.GetComponent<JpControl> ().enabled = false;
+        player.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
+        player.GetComponent<JpControl> ().enabled = false;
 		player.GetComponent<Invincibility> ().enabled = false;
 		player.GetComponent<BoxCollider2D> ().enabled = false;
 		Camera.main.GetComponent<AudioSource> ().Stop ();
@@ -189,6 +190,16 @@ public class GameManager : MonoBehaviour {
 	public void Respawn() {
 
 		Camera.main.GetComponent<AudioSource> ().Play ();
+        player.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+
+        // To reset all the spawners
+        if (currentLevel == Levels.Giacaman)
+        {
+            foreach (var item in FindObjectsOfType<CameraSpawner>())
+            {
+                item.hasSpawned = false;
+            }
+        }
 
         //Destroy player's death explosion
 		if (GameObject.Find("JPExplosion(Clone)")) {

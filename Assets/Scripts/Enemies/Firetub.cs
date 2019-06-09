@@ -46,7 +46,8 @@ public class Firetub : MonoBehaviour {
 
         float distance = Mathf.Abs(transform.position.x - player.position.x);
 
-        if (canAttack && distance <= triggerDistance && player.position.y <= transform.position.y)
+        //if (canAttack && distance <= triggerDistance && player.position.y <= transform.position.y)
+        if (canAttack && player.position.y <= transform.position.y)
         {
             anim.SetTrigger("attack");
             canAttack = false;
