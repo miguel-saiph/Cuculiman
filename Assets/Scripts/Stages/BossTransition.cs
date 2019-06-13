@@ -91,12 +91,14 @@ public class BossTransition : MonoBehaviour {
 			if (other.tag == "Player") {
 				//playerLifeBar.gameObject.SetActive(false);
 				Camera.main.GetComponent<Camera2D> ().enabled = false;
-				Invoke ("DisablePreviousZone", 4);
+                if (actualZone)
+				    Invoke ("DisablePreviousZone", 4);
 				/*
 				if (worldLimit) {
 					Invoke ("EnableWorldLimit", 0.5f);
 				}*/
-				nextZone.gameObject.SetActive (true);
+                if (nextZone)
+				    nextZone.gameObject.SetActive (true);
 				boss.GetComponent<Animator>().enabled = false;
 				Invoke ("DestroyThis", 3f);
 			}

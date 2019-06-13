@@ -71,8 +71,9 @@ public class BossLifeBarBehavior : MonoBehaviour {
 			
 				GetComponentInParent<Invincibility> ().enabled = true;
 				if (hurtedThing) {
-					Instantiate (hurtedThing, transform.GetChild (0).position, transform.rotation, transform);
-				}
+                    //Instantiate (hurtedThing, transform.GetChild (0).position, transform.rotation, transform);
+                    Instantiate(hurtedThing, transform.parent.GetComponent<SpriteRenderer>().bounds.center, transform.rotation, transform);
+                }
 			} else {
 				GetComponent<AudioSource> ().clip = notHurted;
 				GetComponent<AudioSource> ().Play ();
@@ -141,9 +142,14 @@ public class BossLifeBarBehavior : MonoBehaviour {
 		if (pos == bossHp) {
 			if (GetComponentInParent<CelesteManController> ()) {
 				GetComponentInParent<CelesteManController> ().enabled = true;
-			} else {
+			} else if (GetComponentInParent<RonquidomanController>())
+            {
 				GetComponentInParent<RonquidomanController> ().enabled = true;
 			}
+            else if(GetComponentInParent<Giacaman>())
+            {
+                GetComponentInParent<Giacaman>().enabled = true;
+            }
 			GameObject.Find("JP").GetComponent<JpControl> ().enabled = true;
 			GetComponentInParent<Animator> ().SetTrigger ("start");
 		}

@@ -83,7 +83,7 @@ public class LadderMovement : MonoBehaviour {
 
         }
 
-        if (isClimbing && Mathf.Abs(Input.GetAxisRaw("Vertical")) < 0.1f)
+        if (isClimbing && Mathf.Abs(Input.GetAxisRaw("Vertical")) < 0.1f && !anim.GetCurrentAnimatorStateInfo(0).IsName("LadderShoot"))
         {
             anim.speed = 0;
         }
