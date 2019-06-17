@@ -11,13 +11,18 @@ public class ToStageSelect : MonoBehaviour {
 
 		if (Input.GetButtonDown("Jump") || Input.GetButtonDown("Fire1")) {
 
-			if (GameManager.gm.ronquidomanStage) {
+			if (GameManager.gm.currentLevel == GameManager.Levels.Ronquidoman) {
 				GlobalOptions.stage2 = true;
-			} else {
+			} else if (GameManager.gm.currentLevel == GameManager.Levels.Celesteman)
+            {
 				GlobalOptions.stage1 = true;
 			}
-				
-			SceneManager.LoadScene ("Stage Selection");
+            else if (GameManager.gm.currentLevel == GameManager.Levels.Giacaman)
+            {
+                GlobalOptions.stage3 = true;
+            }
+
+            SceneManager.LoadScene ("Stage Selection");
 
 			
 		}

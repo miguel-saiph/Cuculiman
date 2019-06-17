@@ -83,7 +83,7 @@ public class LadderMovement : MonoBehaviour {
 
         }
 
-        if (isClimbing && Mathf.Abs(Input.GetAxisRaw("Vertical")) < 0.1f)
+        if (isClimbing && Mathf.Abs(Input.GetAxisRaw("Vertical")) < 0.1f && !anim.GetCurrentAnimatorStateInfo(0).IsName("LadderShoot"))
         {
             anim.speed = 0;
         }
@@ -94,6 +94,12 @@ public class LadderMovement : MonoBehaviour {
 
         // Abort climbing with jump button
         if (isClimbing && Input.GetButtonDown("Jump"))
+        {
+            isClimbing = false;
+        }
+
+        // Abort climbing when it's hit
+        if (isClimbing && anim.GetCurrentAnimatorStateInfo(0).IsName("Hurted"))
         {
             isClimbing = false;
         }
@@ -115,7 +121,8 @@ public class LadderMovement : MonoBehaviour {
     private void OnTriggerStay2D(Collider2D collision)
     {
         // To allow camera movement y while in the ladder
-        if (!GameObject.Find("StageManager").GetComponent<FiremanStage>().staticCamera)
+        //if (!GameObject.Find("StageManager").GetComponent<FiremanStage>().staticCamera)
+        if (!GameManager.gm.staticCamera)
         {
             if (player.GetComponent<Rigidbody2D>().velocity.y == 2 || player.GetComponent<Rigidbody2D>().velocity.y == -2)
                 Camera.main.GetComponent<Camera2D>().isYLocked = false;

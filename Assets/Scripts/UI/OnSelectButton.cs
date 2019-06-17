@@ -10,6 +10,7 @@ public class OnSelectButton : MonoBehaviour, ISelectHandler {
 	public Sprite faceLeft;
 	public Sprite faceRight;
 	public Sprite faceCentral;
+    public Sprite faceDown;
 
 	public void OnSelect(BaseEventData eventData) {
 
@@ -26,7 +27,12 @@ public class OnSelectButton : MonoBehaviour, ISelectHandler {
 			jpFace.GetComponent<Image> ().sprite = faceLeft;
 		} else if (gameObject.name == "Border 2") {
 			jpFace.GetComponent<Image> ().sprite = faceRight;
-		} else {
+		}
+        else if (gameObject.name == "Border 3")
+        {
+            jpFace.GetComponent<Image>().sprite = faceDown;
+        }
+        else {
 			jpFace.GetComponent<Image> ().sprite = faceCentral;
 		}
 	}

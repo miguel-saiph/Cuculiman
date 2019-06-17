@@ -46,7 +46,8 @@ public class Firetub : MonoBehaviour {
 
         float distance = Mathf.Abs(transform.position.x - player.position.x);
 
-        if (canAttack && distance <= triggerDistance && player.position.y <= transform.position.y)
+        //if (canAttack && distance <= triggerDistance && player.position.y <= transform.position.y)
+        if (canAttack && player.position.y <= transform.position.y)
         {
             anim.SetTrigger("attack");
             canAttack = false;
@@ -58,6 +59,9 @@ public class Firetub : MonoBehaviour {
     protected void DropFlame()
     {
         Instantiate(flamePrefab, new Vector2(transform.position.x, transform.position.y - 0.3f), Quaternion.identity);
+
+        if (GetComponent<SpriteRenderer>().isVisible)
+            GetComponent<AudioSource>().Play();
     }
 
     private void AttackCooldown()

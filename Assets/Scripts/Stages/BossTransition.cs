@@ -64,8 +64,21 @@ public class BossTransition : MonoBehaviour {
 
 				if (activateThings) {
 					Invoke("ActiveDialogue", 0.4f);
-					//BOSS THINGS HERE
-					Invoke("ActiveBoss", 0.5f);
+                    
+                    // Destroy remaining enemies
+                    foreach (var spawner in FindObjectsOfType<CameraSpawner>())
+                    {
+                        Destroy(spawner.gameObject);
+                    }
+
+                    foreach (var enemy in GameObject.FindGameObjectsWithTag("Enemy"))
+                    {
+                        if(enemy.GetComponent<SpriteRenderer>() && !enemy.GetComponent<SpriteRenderer>().isVisible)
+                        Destroy(enemy);
+                    }
+
+                    //BOSS THINGS HERE
+                    Invoke("ActiveBoss", 0.5f);
 					activateThings = false;
 				}
 
@@ -91,12 +104,14 @@ public class BossTransition : MonoBehaviour {
 			if (other.tag == "Player") {
 				//playerLifeBar.gameObject.SetActive(false);
 				Camera.main.GetComponent<Camera2D> ().enabled = false;
-				Invoke ("DisablePreviousZone", 4);
+                if (actualZone)
+				    Invoke ("DisablePreviousZone", 4);
 				/*
 				if (worldLimit) {
 					Invoke ("EnableWorldLimit", 0.5f);
 				}*/
-				nextZone.gameObject.SetActive (true);
+                if (nextZone)
+				    nextZone.gameObject.SetActive (true);
 				boss.GetComponent<Animator>().enabled = false;
 				Invoke ("DestroyThis", 3f);
 			}

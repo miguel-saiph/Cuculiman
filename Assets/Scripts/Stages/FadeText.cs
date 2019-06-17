@@ -18,7 +18,10 @@ public class FadeText : MonoBehaviour {
 	void Start () {
 
 		aux = secondsBetweenText;
-		FadeIn ();
+        if (GlobalOptions.language == GlobalOptions.Language.Español)
+            //GetComponent<Text>().text = "EN EL AÑO 201X \n UN GAMER LLAMADO JP Y SUS AMIGOS";
+
+        FadeIn ();
 		
 	}
 	

@@ -71,8 +71,9 @@ public class BossLifeBarBehavior : MonoBehaviour {
 			
 				GetComponentInParent<Invincibility> ().enabled = true;
 				if (hurtedThing) {
-					Instantiate (hurtedThing, transform.GetChild (0).position, transform.rotation, transform);
-				}
+                    //Instantiate (hurtedThing, transform.GetChild (0).position, transform.rotation, transform);
+                    Instantiate(hurtedThing, transform.parent.GetComponent<SpriteRenderer>().bounds.center, transform.rotation, transform);
+                }
 			} else {
 				GetComponent<AudioSource> ().clip = notHurted;
 				GetComponent<AudioSource> ().Play ();
@@ -92,10 +93,14 @@ public class BossLifeBarBehavior : MonoBehaviour {
 						} else {
 							CelesteEnrage ();
 						}
-					} else {
+					} else if (GetComponentInParent<RonquidomanController> ()){
 						GetComponentInParent<RonquidomanController> ().enrageAnim = true;
 					}
-					hasEnrage = false;
+                    else if (GetComponentInParent<Giacaman>())
+                    {
+                        GetComponentInParent<Giacaman>().Enrage();
+                    }
+                    hasEnrage = false;
 				}
 			}
 
@@ -120,7 +125,8 @@ public class BossLifeBarBehavior : MonoBehaviour {
 				GameObject.Find ("JP").GetComponent<Animator> ().Play ("Idle");
 				GameObject.Find("JP").GetComponent<Animator> ().SetTrigger ("reset");
 				GameObject.Find("JP").GetComponent<JpControl> ().enabled = false;
-				Camera.main.GetComponent<AudioSource> ().Stop();
+                GameObject.Find("JP").tag = "Invincible";
+                Camera.main.GetComponent<AudioSource> ().Stop();
 				Camera.main.GetComponent<AudioSource> ().clip = victoryMusic;
 				Camera.main.GetComponent<AudioSource> ().Play();
 				GameManager.gm.Victory ();
@@ -141,9 +147,14 @@ public class BossLifeBarBehavior : MonoBehaviour {
 		if (pos == bossHp) {
 			if (GetComponentInParent<CelesteManController> ()) {
 				GetComponentInParent<CelesteManController> ().enabled = true;
-			} else {
+			} else if (GetComponentInParent<RonquidomanController>())
+            {
 				GetComponentInParent<RonquidomanController> ().enabled = true;
 			}
+            else if(GetComponentInParent<Giacaman>())
+            {
+                GetComponentInParent<Giacaman>().enabled = true;
+            }
 			GameObject.Find("JP").GetComponent<JpControl> ().enabled = true;
 			GetComponentInParent<Animator> ().SetTrigger ("start");
 		}
