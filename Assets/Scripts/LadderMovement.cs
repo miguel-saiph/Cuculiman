@@ -98,6 +98,12 @@ public class LadderMovement : MonoBehaviour {
             isClimbing = false;
         }
 
+        // Abort climbing when it's hit
+        if (isClimbing && anim.GetCurrentAnimatorStateInfo(0).IsName("Hurted"))
+        {
+            isClimbing = false;
+        }
+
         //if (isClimbing) Camera.main.GetComponent<Camera2D>().isYLocked = false;
         //else Camera.main.GetComponent<Camera2D>().isYLocked = true;
 

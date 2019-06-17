@@ -8,6 +8,8 @@ public class Giacaman : MonoBehaviour {
     [SerializeField] private float jumpForceY = 100f;
     [SerializeField] private GameObject normalBullet;
     [SerializeField] private GameObject earthBullet;
+    [SerializeField] private AudioClip fireShoot;
+    [SerializeField] private AudioClip earthFlame;
 
     private Transform pj;
     private Animator anim;
@@ -100,13 +102,17 @@ public class Giacaman : MonoBehaviour {
             if(attacks[random] == "Jump")
             {
                 GetComponent<Rigidbody2D>().AddForce(new Vector2(jumpForceX * -transform.localScale.x, jumpForceY));
+
             } else if(attacks[random] == "FireShoot")
             {
                 anim.SetTrigger("shoot");
+                //if(!anim.GetCurrentAnimatorStateInfo(0).IsName("Earthattack"))
+                    //GetComponent<AudioSource>().PlayOneShot(fireShoot);
             }
             else if (attacks[random] == "EarthAttack")
             {
                 anim.SetTrigger("earth");
+                GetComponent<AudioSource>().PlayOneShot(earthFlame);
             }
 
             isJumping = true;
@@ -154,6 +160,7 @@ public class Giacaman : MonoBehaviour {
 
     public void Enrage()
     {
+        jumpCooldown = jumpCooldown - 0.2f;
     }
 
     private void ResetVelocity()

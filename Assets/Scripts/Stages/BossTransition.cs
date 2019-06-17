@@ -64,8 +64,21 @@ public class BossTransition : MonoBehaviour {
 
 				if (activateThings) {
 					Invoke("ActiveDialogue", 0.4f);
-					//BOSS THINGS HERE
-					Invoke("ActiveBoss", 0.5f);
+                    
+                    // Destroy remaining enemies
+                    foreach (var spawner in FindObjectsOfType<CameraSpawner>())
+                    {
+                        Destroy(spawner.gameObject);
+                    }
+
+                    foreach (var enemy in GameObject.FindGameObjectsWithTag("Enemy"))
+                    {
+                        if(enemy.GetComponent<SpriteRenderer>() && !enemy.GetComponent<SpriteRenderer>().isVisible)
+                        Destroy(enemy);
+                    }
+
+                    //BOSS THINGS HERE
+                    Invoke("ActiveBoss", 0.5f);
 					activateThings = false;
 				}
 

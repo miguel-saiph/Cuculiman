@@ -93,10 +93,14 @@ public class BossLifeBarBehavior : MonoBehaviour {
 						} else {
 							CelesteEnrage ();
 						}
-					} else {
+					} else if (GetComponentInParent<RonquidomanController> ()){
 						GetComponentInParent<RonquidomanController> ().enrageAnim = true;
 					}
-					hasEnrage = false;
+                    else if (GetComponentInParent<Giacaman>())
+                    {
+                        GetComponentInParent<Giacaman>().Enrage();
+                    }
+                    hasEnrage = false;
 				}
 			}
 
@@ -121,7 +125,8 @@ public class BossLifeBarBehavior : MonoBehaviour {
 				GameObject.Find ("JP").GetComponent<Animator> ().Play ("Idle");
 				GameObject.Find("JP").GetComponent<Animator> ().SetTrigger ("reset");
 				GameObject.Find("JP").GetComponent<JpControl> ().enabled = false;
-				Camera.main.GetComponent<AudioSource> ().Stop();
+                GameObject.Find("JP").tag = "Invincible";
+                Camera.main.GetComponent<AudioSource> ().Stop();
 				Camera.main.GetComponent<AudioSource> ().clip = victoryMusic;
 				Camera.main.GetComponent<AudioSource> ().Play();
 				GameManager.gm.Victory ();

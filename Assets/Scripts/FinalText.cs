@@ -21,8 +21,8 @@ public class FinalText : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		if (Input.GetButtonDown("Submit")) {
-
+		if (Input.GetButtonDown("Submit") || Input.GetButtonDown("Jump") || Input.GetButtonDown("Fire1")) {
+            Debug.Log("Quitting");
 			Application.Quit ();
 		}
 		

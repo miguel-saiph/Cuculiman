@@ -59,6 +59,9 @@ public class Firetub : MonoBehaviour {
     protected void DropFlame()
     {
         Instantiate(flamePrefab, new Vector2(transform.position.x, transform.position.y - 0.3f), Quaternion.identity);
+
+        if (GetComponent<SpriteRenderer>().isVisible)
+            GetComponent<AudioSource>().Play();
     }
 
     private void AttackCooldown()

@@ -32,6 +32,7 @@ public class Fatguy : MonoBehaviour {
                 littleFire.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
                 littleFire.GetComponent<Rigidbody2D>().gravityScale = 0.2f;
 
+                // Spawn 2 more fires when in frenzy
                 if(hp <= 2 && frenzy)
                 {
                     Instantiate(firePrefab, new Vector2(littleFire.transform.position.x + 0.5f, littleFire.transform.position.y), Quaternion.identity);
@@ -41,18 +42,28 @@ public class Fatguy : MonoBehaviour {
             }
                 
         }
-	}
+
+        // Flip
+        if (GameObject.Find("JP").transform.position.x > transform.position.x)
+            GetComponent<SpriteRenderer>().flipX = true;
+        else
+            GetComponent<SpriteRenderer>().flipX = false;   
+
+
+    }
 
     private void Attack()
     {
-        float distance = Mathf.Abs(transform.position.x - GameObject.Find("JP").transform.position.x);
-
-        if (distance <= 2)
+        if (GetComponent<SpriteRenderer>().isVisible)
         {
+            //float distance = Mathf.Abs(transform.position.x - GameObject.Find("JP").transform.position.x);
+            
             littleFire = Instantiate(firePrefab, transform.position, Quaternion.identity);
             littleFire.GetComponent<Rigidbody2D>().AddForce(Vector2.up * attackForce);
             isVulnerable = true;
+            
         }
+        
         
     }
 

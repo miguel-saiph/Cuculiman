@@ -96,7 +96,8 @@ public class JpControl : MonoBehaviour {
 		//Salto
 
 		isOnTheFloor = Physics2D.OverlapBox(groundCheck.position, groundCheckSize, 0,  whatIsGround);
-        if (isOnTheFloor && PlayerPrefs.GetString("CurrentLevel") == "Giacaman")
+        //if (isOnTheFloor && PlayerPrefs.GetString("CurrentLevel") == "Giacaman")
+        if (isOnTheFloor)
             Camera.main.GetComponent<Camera2D>().isYLocked = true;
         //isOnTheFloor = Physics2D.Linecast(transform.position, groundCheck.position, whatIsGround);
         /*

@@ -197,7 +197,16 @@ public class GameManager : MonoBehaviour {
         {
             foreach (var item in FindObjectsOfType<CameraSpawner>())
             {
+                if (item.gameObject.transform.childCount > 0)
+                {
+                    Destroy(item.gameObject.transform.GetChild(0).gameObject);
+                }
                 item.hasSpawned = false;
+            }
+
+            foreach (var item in FindObjectsOfType<SharkBullet>())
+            {
+                Destroy(item.gameObject);
             }
         }
 
@@ -296,7 +305,11 @@ public class GameManager : MonoBehaviour {
                             {
 								SceneManager.LoadScene ("CelesteMan Battle");	
 							}
-						} else {
+                            else if (currentLevel == Levels.Giacaman)
+                            {
+                                SceneManager.LoadScene("FireMan Battle");
+                            }
+                        } else {
 							
 							//SceneManager.LoadScene ("Stage Selection");
 						}

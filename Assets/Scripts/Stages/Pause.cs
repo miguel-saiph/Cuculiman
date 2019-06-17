@@ -34,7 +34,8 @@ public class Pause : MonoBehaviour {
 			if (Input.GetKeyDown (KeyCode.Escape) || Input.GetKeyDown(KeyCode.Joystick1Button6)) {
 				Application.Quit ();
 			}
-		}
+            
+        }
 	
 	}
 
@@ -44,15 +45,19 @@ public class Pause : MonoBehaviour {
 
 		if (paused) {
 
-			Time.timeScale = 1f;
+            GameObject.Find("JP").GetComponent<JpControl>().enabled = true;
+            Time.timeScale = 1f;
 			pauseScreenCanvas.SetActive(false);
 			paused = false;
+            
 	
 		} else {
 
-			Time.timeScale = 0f;
+            GameObject.Find("JP").GetComponent<JpControl>().enabled = false;
+            Time.timeScale = 0f;
 			pauseScreenCanvas.SetActive(true);
 			paused = true;
-		}
+            
+        }
 	}
 }

@@ -35,7 +35,6 @@ public class DropFire : MonoBehaviour {
 
         GameObject newMinion = Instantiate(lilFirePrefab, new Vector2(transform.position.x - 0.4f, transform.position.y), transform.rotation);
         minions.Add(newMinion);
-        Debug.Log(minions.Count);
         if (minions.Count > maxMinions)
         {
             Destroy(minions[0]);

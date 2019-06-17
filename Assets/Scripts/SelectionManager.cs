@@ -9,7 +9,8 @@ public class SelectionManager : MonoBehaviour {
 	public Button jPFace;
 	public Button stage1;
 	public Button stage2;
-	public Canvas selectionScreen;
+    public Button stage3;
+    public Canvas selectionScreen;
 	public Canvas presentationCanvas;
 	public Sprite completedImage;
 
@@ -24,9 +25,10 @@ public class SelectionManager : MonoBehaviour {
 
 		Cursor.visible = false;
 		jPFace.Select (); //IMPORTANT to automatic set key inputs
+        stage2.GetComponent<Animator>().SetTrigger("Normal") ;
 
-		//GlobalOptions.lives = 3;
-		stage1Completed = GlobalOptions.stage1;
+        //GlobalOptions.lives = 3;
+        stage1Completed = GlobalOptions.stage1;
 		stage2Completed = GlobalOptions.stage2;
         stage3Completed = GlobalOptions.stage3;
 
@@ -42,8 +44,8 @@ public class SelectionManager : MonoBehaviour {
 
         if (stage3Completed)
         {
-            //GameObject.Find("Ronquido Image").GetComponent<Image>().sprite = completedImage;
-            //GameObject.Find("Ronquido Image").GetComponent<Image>().SetNativeSize();
+            GameObject.Find("Giaca image").GetComponent<Image>().sprite = completedImage;
+            GameObject.Find("Giaca image").GetComponent<Image>().SetNativeSize();
         }
 
         if (stage1Completed && stage2Completed && stage3Completed) {
@@ -69,6 +71,8 @@ public class SelectionManager : MonoBehaviour {
 		    stage1.GetComponent<Animator> ().enabled = false;
         if (_stage == 2)
             stage2.GetComponent<Animator>().enabled = false;
+        if (_stage == 3)
+            stage3.GetComponent<Animator>().enabled = false;
     }
 
 	private void ActivatePresentation() {
