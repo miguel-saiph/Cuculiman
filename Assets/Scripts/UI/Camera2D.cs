@@ -22,6 +22,7 @@ public class Camera2D : MonoBehaviour {
 
 	public float xLimitLeft;
 	public float xLimitRight;
+    public float yLimitUp;
     public float yLimitDown;
 
 	void Start () {
@@ -79,6 +80,14 @@ public class Camera2D : MonoBehaviour {
 				xNew = transform.position.x;
 			}
 		}
+
+        if (Mathf.Abs(yLimitUp) > 0)
+        {
+            if (Camera.main.WorldToViewportPoint(new Vector2(0, yLimitUp)).y <= 1 && yNew >= transform.position.y)
+            {
+                yNew = transform.position.y;
+            }
+        }
 
         if (Mathf.Abs(yLimitDown) > 0)
         {
